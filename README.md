@@ -8,15 +8,10 @@
 - Psycopg
 ## Setup
 
-- Install Postgres:
-`brew install postgresql`
-- [Install PgAdmin](https://www.pgadmin.org/download/pgadmin-4-macos/)
-- [Setup Postgres](https://docs.bitnami.com/installer/apps/canvaslms/administration/configure-pgadmin/)
-
-- install Psycopg locally (connect to Postgres)
-`pip install psycopg2-binary`
-
-[Alternative ways to install](https://www.psycopg.org/docs/install.html)
+- Install Postgres: `brew install postgresql`
+- Install PgAdmin: `brew install --cask pgadmin4`
+- [Setup local Postgres server](https://docs.bitnami.com/installer/apps/canvaslms/administration/configure-pgadmin/)
+- Install Psycopg: `pip install psycopg2-binary`
 
 ## 1.  Create the db localy
 
@@ -24,8 +19,8 @@
 
 ## 2. Create a table in the db
 
-Run the following script: `python create-table.py`
+`python create-table.py`
 
-## 3. Run the script
+## 3. Run the evidence service
 
 `python evidence-serivce.py`
