@@ -7,21 +7,61 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <title>Show all controls</title>
 </head>
+<header>
+	<div class="jumbotron bg-dark text-white">
+		<h1 class="display-4">Quality guild</h1>
+		<p class="lead">Continuous auditting</p>
+		<hr class="my-4">
+		<p>Click below take a look at the source code and on how to install and run</p>
+		<p class="lead">
+			<a class="btn btn-primary btn-lg" href="https://github.com/NielsTalens/evidence-service" target="_blank" role="button">Source code</a>
+		</p>
+	</div>
+</header>
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm">
+				<h2>Controls</h2>
 				{%for i in range(0, len_c)%}
-				<p>{{all_controls[i]}}</p>
+				<p>Id: {{all_controls[i]['Control Id']}}</p>
+				<p>Description: {{all_controls[i]['Description']}}</p>
+				<p>Control value: {{all_controls[i]['Control value']}}</p>
+				<hr>
 				{%endfor%}
 			</div>
 			<div class="col-sm">
+				<h2>Evidence</h2>
 				{%for i in range(0, len_e)%}
-				<p>{{all_evidence[i]}}</p>
+				<p>Description: {{all_evidence[i]['Description']}}</p>
+				<p>Control id: {{all_evidence[i]['Control id']}}</p>
+				<p>Retrieved value: {{all_evidence[i]['Retrieved value']}}</p>
+				<hr>
 				{%endfor%}
 			</div>
 			<div class="col-sm">
-				One of three columns
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title">Failed controls</h2>
+					</div>
+					<div class="card-body">
+						{%for i in range(0, len_chf)%}
+						<p class="text-danger">{{checks_fail[i]['Description']}}</p>
+						<p class="text-warning">Failed with value {{checks_fail[i]['Retrieved value']}}</p>
+						{%endfor%}
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title">Succeeded controls</h2>
+					</div>
+					<div class="card-body">
+						{%for i in range(0, len_chs)%}
+						<p class="text-success">{{checks_succeed[i]['Description']}}</p>
+						<p class="text-info">succeeded with value {{checks_succeed[i]['Retrieved value']}}</p>
+						{%endfor%}
+					</div>
+				</div>
 			</div>
 		</div>
 

@@ -54,18 +54,28 @@ def handle_controls():
         {
             "Control Id": control.control_id,
             "Description": control.control_description,
-            "Value": control.control_value
+            "Control value": control.control_value
         } for control in controls]
 
     evidences = EvidenceModel.query.all()
     all_evidence = [
       {
-          "Control Id": evidence.rule_description,
-          "Description": evidence.control_id,
-          "Value": evidence.retrieved_value
+          "Description": evidence.rule_description,
+          "Control id": evidence.control_id,
+          "Retrieved value": evidence.retrieved_value
       } for evidence in evidences]
-  # return {"count": len(all_evidence), "evidence": all_evidence, "message": "success"}
-    return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls)
+
+    checks_fail = []
+    checks_succeed = []
+    for evidence in all_evidence:
+      for control in all_controls:
+        if evidence['Control id'] == control['Control Id']:
+          if evidence['Retrieved value'] != control['Control value']:
+            checks_fail.append(evidence)
+          else:
+            checks_succeed.append(evidence)
+
+    return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls, evidences=evidences, len_chf = len(checks_fail), checks_fail=checks_fail,len_chs = len(checks_succeed), checks_succeed=checks_succeed)
 
   # return render_template("index.html", len_c = len(all_controls), all_controls = all_controls)
 
