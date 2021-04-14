@@ -16,15 +16,15 @@ try:
     # Create a cursor to perform database operations
     cursor = connection.cursor()
     # SQL query to create a new table
-    create_table_query = '''CREATE TABLE evidence
+    create_table_query = '''CREATE TABLE controls
           (id serial NOT NULL PRIMARY KEY,
-          rule_description           TEXT    NOT NULL,
-          retrieved_value         TEXT,
-          retrieval_time          timestamp); '''
+          control_id           TEXT    NOT NULL,
+          control_description         TEXT,
+          control_value         TEXT); '''
     # Execute a command: this creates a new table
     cursor.execute(create_table_query)
     connection.commit()
-    print("Table created successfully in PostgreSQL ")
+    print("Table controls created successfully in PostgreSQL ")
 
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)

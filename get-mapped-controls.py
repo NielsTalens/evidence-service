@@ -8,14 +8,6 @@ from psycopg2 import Error
 # Write your name to the env file
 username = os.environ['USERNAME']
 
-response = requests.get('http://xkcd.com/23/info.0.json')
-
-# Map the retrieved information
-rule_description = response.json()['title']
-retrieved_value = response.json()['month']
-control_id = "MAN-1X"
-retrieval_time = datetime.datetime.now()
-
 try:
     # Connect to an existing database
     connection = psycopg2.connect(user= username,
@@ -26,11 +18,17 @@ try:
 
     cursor = connection.cursor()
     # Executing a SQL query to insert datetime into table
-    insert_query = """ INSERT INTO evidence (rule_description, control_id, retrieved_value, retrieval_time) VALUES (%s, %s, %s, %s)"""
-    item_tuple = (rule_description, control_id, retrieved_value, retrieval_time)
-    cursor.execute(insert_query, item_tuple)
+    insert_query = """ SELECT evidence.id, evidence.rule_description, controls.id, controls.control_description, evidence.retrieved_value, controls.control_value FROM evidence INNER JOIN controls ON evidence.control_id=controls.control_id;"""
+    cursor.execute(insert_query)
     connection.commit()
-    print("1 item inserted successfully")
+    result = cursor.fetchall()
+    print("RESULTS:")
+    for row in result:
+      print("The rule has succesfully passed...") if row[4] == row[5] else print("! ! ! ! ! ! ! The rule is NOT passed ! ! ! ! ! ! !")
+      print("- Evidence rule description: ", row[1], )
+      print("- Controls description: ", row[3])
+      print("- Retrieved value: ", row[4], "Desired value: ", row[5])
+      print("- - - - - - - - - -")
 
 except (Exception, psycopg2.Error) as error:
     print("Error while connecting to PostgreSQL", error)
