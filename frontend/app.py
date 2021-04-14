@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import request
+from flask import render_template
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/ca_db"
@@ -46,12 +47,15 @@ def handle_controls():
         controls = ControlsModel.query.all()
         results = [
             {
-                "control_id": control.control_id,
-                "model": control.control_description,
-                "doors": control.control_value
+                "Control Id": control.control_id,
+                "Description": control.control_description,
+                "Value": control.control_value
             } for control in controls]
 
-        return {"count": len(results), "controls": results, "message": "success"}
+        # for x in range(len(results)):
+        #   print(results[x])
+        # return {"count": len(results), "controls": results, "message": "success"}
+        return render_template("index.html", len = len(results), results = results)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(use_reloader = True, debug = True)
