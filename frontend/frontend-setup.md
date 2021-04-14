@@ -6,7 +6,7 @@ $ pip install Flask-Migrate
 
 ## Run the frontend
 
-- Run the following command in the frontend directory: `flask run`
+- Run the following command in the frontend directory: `FLASK_APP=app.py FLASK_ENV=development flask run`
 
 
 https://stackabuse.com/using-sqlalchemy-with-flask-and-postgresql/#disqus_thread
