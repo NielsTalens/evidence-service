@@ -44,11 +44,6 @@ VALUES
 ('A control to prevent vulnerabilities', '1748-G', 1),
 ('A control to prevent dependencies', 'MAN-1X', 2);
 
-
-- Find the control-evidence map:
-
-SELECT evidence.id, controls.id, evidence.retrieved_value, controls.control_value FROM evidence INNER JOIN controls ON evidence.control_id=controls.control_id;
-
 ## 4. Run the evidence service
 
 `python evidence-serivce.py`
@@ -56,3 +51,24 @@ SELECT evidence.id, controls.id, evidence.retrieved_value, controls.control_valu
 ## 5. See all mapped controls
 
 `python get-mapped-controls.py`
+
+## 6. Get the frontend up and running
+
+In the frontend directory:
+## 7. Install dependencies
+
+$ pip install psycopg2-binary
+$ pip install flask-sqlalchemy
+$ pip install Flask-Migrate
+
+## 8. Run the frontend
+
+- Run the following command in the frontend directory: `FLASK_APP=app.py FLASK_ENV=development flask run`
+- Visit [localhost](http://127.0.0.1:5000/)
+
+
+## Snippets
+
+- Find the control-evidence map:
+
+SELECT evidence.id, controls.id, evidence.retrieved_value, controls.control_value FROM evidence INNER JOIN controls ON evidence.control_id=controls.control_id;
