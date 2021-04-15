@@ -19,8 +19,9 @@
 
 ## 2. Create tables in the db
 
-`python create-evidence-table.py`
-`python create-control-table.py`
+
+`python setup/create-evidence-table.py`
+`python setup/create-control-table.py`
 
 ## 3. Create testdata
 

@@ -42,11 +42,7 @@ class EvidenceModel(db.Model):
     def __repr__(self):
         return f"<Evidence {self.id}>"
 
-@app.route('/')
-def hello():
-    return {"hello": "world"}
-
-@app.route('/controls', methods=['GET'])
+@app.route('/', methods=['GET'])
 def handle_controls():
     request.method == 'GET'
     controls = ControlsModel.query.all()
