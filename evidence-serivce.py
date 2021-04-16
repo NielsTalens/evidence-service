@@ -26,8 +26,8 @@ try:
 
     cursor = connection.cursor()
     # Executing a SQL query to insert datetime into table
-    insert_query = """ INSERT INTO evidence (rule_description, control_id, retrieved_value, retrieval_time) VALUES (%s, %s, %s, %s)"""
-    item_tuple = (rule_description, control_id, retrieved_value, retrieval_time)
+    insert_query = """ INSERT INTO evidence (rule_description, control_id, retrieved_value) VALUES (%s, %s, %s, %s)"""
+    item_tuple = (rule_description, control_id, retrieved_value)
     cursor.execute(insert_query, item_tuple)
     connection.commit()
     print("1 item inserted successfully")
