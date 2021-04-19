@@ -6,19 +6,26 @@ import datetime
 from psycopg2 import Error
 
 # Write your name to the env file
-username = os.environ['USERNAME']
+username = os.environ['USER']
 
 try:
     # Connect to an existing database
     connection = psycopg2.connect(user= username,
-                                  password="",
-                                  host="127.0.0.1",
+                                  password="pgadmin",
+                                  host="localhost",
                                   port="5432",
                                   database="ca_db")
 
     cursor = connection.cursor()
     # Executing a SQL query to insert datetime into table
-    insert_query = """ SELECT evidence.id, evidence.rule_description, controls.id, controls.control_description, evidence.retrieved_value, controls.control_value FROM evidence INNER JOIN controls ON evidence.control_id=controls.control_id;"""
+    insert_query = """ SELECT evidence.id
+                            , evidence.rule_description
+                            , controls.id
+                            , controls.control_description
+                            , evidence.retrieved_value
+                            , controls.control_value 
+                       FROM evidence 
+                       INNER JOIN controls ON evidence.control_id = controls.control_id;"""
     cursor.execute(insert_query)
     connection.commit()
     result = cursor.fetchall()

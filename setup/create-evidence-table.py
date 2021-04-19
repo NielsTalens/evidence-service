@@ -3,26 +3,33 @@ import psycopg2
 from psycopg2 import Error
 
 # Write your name to the env file
-username = os.environ['USERNAME']
+username = os.environ['USER']
 
 try:
     # Connect to an existing database
     connection = psycopg2.connect(user= username,
-                                  password="",
-                                  host="127.0.0.1",
+                                  password="pgadmin",
+                                  host="localhost",
                                   port="5432",
                                   database="ca_db")
 
     # Create a cursor to perform database operations
     cursor = connection.cursor()
-    # SQL query to create a new table
-    create_table_query = '''CREATE TABLE evidence
-          (id serial NOT NULL PRIMARY KEY,
+
+    # DDL statements to drop and create a table
+    ddl_delete_table = '''DROP TABLE IF EXISTS evidence'''
+    cursor.execute(ddl_delete_table)
+    
+    ddl_create_table = '''CREATE TABLE evidence
+          (
+          id                         serial  NOT NULL PRIMARY KEY,
           rule_description           TEXT    NOT NULL,
-          control_id           TEXT    NOT NULL,
-          retrieved_value         TEXT); '''
-    # Execute a command: this creates a new table
-    cursor.execute(create_table_query)
+          control_id                 TEXT    NOT NULL,
+          retrieved_value            TEXT, 
+          retrieval_time             TEXT
+          ); '''
+    # Execute the create the table command
+    cursor.execute(ddl_create_table)
     connection.commit()
     print("Table evidence created successfully in PostgreSQL ")
 
