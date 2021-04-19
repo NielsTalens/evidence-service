@@ -61,6 +61,7 @@ def handle_controls():
           "Retrieved value": evidence.retrieved_value
       } for evidence in evidences]
 
+    # I think that it would be nicer to have this as a sql procedure
     checks_fail = []
     checks_succeed = []
     for evidence in all_evidence:
@@ -73,21 +74,5 @@ def handle_controls():
 
     return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls, evidences=evidences, len_chf = len(checks_fail), checks_fail=checks_fail,len_chs = len(checks_succeed), checks_succeed=checks_succeed)
 
-  # return render_template("index.html", len_c = len(all_controls), all_controls = all_controls)
-
-
 if __name__ == '__main__':
     app.run(use_reloader = True, debug = True)
-
-#     @app.route('/evidence', methods=['GET'])
-# def handle_evidence():
-#   request.method == 'GET'
-#   evidences = EvidenceModel.query.all()
-#   all_evidence = [
-#       {
-#           "Control Id": evidence.rule_description,
-#           "Description": evidence.control_id,
-#           "Value": evidence.retrieved_value
-#       } for evidence in evidences]
-#   # return {"count": len(all_evidence), "evidence": all_evidence, "message": "success"}
-#   return render_template("index.html", len = len(all_evidence), all_evidence = all_evidence)
