@@ -13,7 +13,7 @@
 - [Setup local Postgres server](https://docs.bitnami.com/installer/apps/canvaslms/administration/configure-pgadmin/)
 - Install Psycopg: `pip install psycopg2-binary`
 
-## 1.  Create the db localy. - Test BDB
+## 1.  Create the db localy. - Test BDB2
 
 - In PgAdmin: select server and right click: Create > Database.
 
