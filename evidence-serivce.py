@@ -6,9 +6,10 @@ import datetime
 from psycopg2 import Error
 
 # Write your name to the env file
-username = os.environ['USERNAME']
+username = os.environ['USER']
 
 response = requests.get('http://xkcd.com/23/info.0.json')
+print(response)
 
 # Map the retrieved information
 rule_description = response.json()['title']

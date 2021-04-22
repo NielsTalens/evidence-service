@@ -72,3 +72,5 @@ $ pip install Flask-Migrate
 - Find the control-evidence map:
 
 SELECT evidence.id, controls.id, evidence.retrieved_value, controls.control_value FROM evidence INNER JOIN controls ON evidence.control_id=controls.control_id;
+
+select * from controls, evidence where controls.control_id=evidence.control_id

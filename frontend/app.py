@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 from flask import request
 from flask import render_template
 from flask_bootstrap import Bootstrap
+from sqlalchemy import text
+
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -61,7 +63,7 @@ def handle_controls():
           "Retrieved value": evidence.retrieved_value
       } for evidence in evidences]
 
-    # I think that it would be nicer to have this as a sql procedure
+    # Refactor: I cannot get DB Sessions up and running so I could do all this with one query
     checks_fail = []
     checks_succeed = []
     for evidence in all_evidence:
