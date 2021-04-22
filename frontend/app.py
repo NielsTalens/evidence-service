@@ -57,29 +57,29 @@ def handle_controls():
 
     evidences = EvidenceModel.query.all()
     all_evidence = [
-      {
-          "Description": evidence.rule_description,
-          "Control id": evidence.control_id,
-          "Retrieved value": evidence.retrieved_value
-      } for evidence in evidences]
+        {
+            "Description": evidence.rule_description,
+            "Control id": evidence.control_id,
+            "Retrieved value": evidence.retrieved_value
+        } for evidence in evidences]
 
 
     succeeded_controls = db.session.query(EvidenceModel).filter(EvidenceModel.control_id==ControlsModel.control_id).filter(EvidenceModel.retrieved_value==ControlsModel.control_value).all()
     all_success = [
-      {
-          "Description": success.rule_description,
-          "Control id": success.control_id,
-          "Retrieved value": success.retrieved_value
-      } for success in succeeded_controls]
+        {
+            "Description": success.rule_description,
+            "Control id": success.control_id,
+            "Retrieved value": success.retrieved_value
+        } for success in succeeded_controls]
 
     failed_controls = db.session.query(EvidenceModel).filter(EvidenceModel.control_id==ControlsModel.control_id).filter(EvidenceModel.retrieved_value!=ControlsModel.control_value).all()
 
     all_fails = [
-      {
-          "Description": fails.rule_description,
-          "Control id": fails.control_id,
-          "Retrieved value": fails.retrieved_value
-      } for fails in failed_controls]
+        {
+            "Description": fails.rule_description,
+            "Control id": fails.control_id,
+            "Retrieved value": fails.retrieved_value
+        } for fails in failed_controls]
 
 
     return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls, len_fail = len(all_fails), all_fails=all_fails, len_suc = len(all_success), all_success=all_success)
