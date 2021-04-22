@@ -63,18 +63,26 @@ def handle_controls():
           "Retrieved value": evidence.retrieved_value
       } for evidence in evidences]
 
-    # Refactor: I cannot get DB Sessions up and running so I could do all this with one query
-    checks_fail = []
-    checks_succeed = []
-    for evidence in all_evidence:
-      for control in all_controls:
-        if evidence['Control id'] == control['Control Id']:
-          if evidence['Retrieved value'] != control['Control value']:
-            checks_fail.append(evidence)
-          else:
-            checks_succeed.append(evidence)
 
-    return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls, evidences=evidences, len_chf = len(checks_fail), checks_fail=checks_fail,len_chs = len(checks_succeed), checks_succeed=checks_succeed)
+    succeeded_controls = db.session.query(EvidenceModel).filter(EvidenceModel.control_id==ControlsModel.control_id).filter(EvidenceModel.retrieved_value==ControlsModel.control_value).all()
+    all_success = [
+      {
+          "Description": success.rule_description,
+          "Control id": success.control_id,
+          "Retrieved value": success.retrieved_value
+      } for success in succeeded_controls]
+
+    failed_controls = db.session.query(EvidenceModel).filter(EvidenceModel.control_id==ControlsModel.control_id).filter(EvidenceModel.retrieved_value!=ControlsModel.control_value).all()
+
+    all_fails = [
+      {
+          "Description": fails.rule_description,
+          "Control id": fails.control_id,
+          "Retrieved value": fails.retrieved_value
+      } for fails in failed_controls]
+
+
+    return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls, len_fail = len(all_fails), all_fails=all_fails, len_suc = len(all_success), all_success=all_success)
 
 if __name__ == '__main__':
     app.run(use_reloader = True, debug = True)
