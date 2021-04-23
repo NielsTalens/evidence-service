@@ -1,7 +1,8 @@
+import json
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask import request
+from flask import request, Response
 from flask import render_template
 from flask_bootstrap import Bootstrap
 from sqlalchemy import text
@@ -47,6 +48,7 @@ class EvidenceModel(db.Model):
 @app.route('/', methods=['GET'])
 def handle_controls():
     request.method == 'GET'
+    # print(get_fails())
     controls = ControlsModel.query.all()
     all_controls = [
         {
@@ -63,15 +65,13 @@ def handle_controls():
             "Retrieved value": evidence.retrieved_value
         } for evidence in evidences]
 
+    all_fails = get_fails()
+    all_success = get_success()
 
-    succeeded_controls = db.session.query(EvidenceModel).filter(EvidenceModel.control_id==ControlsModel.control_id).filter(EvidenceModel.retrieved_value==ControlsModel.control_value).all()
-    all_success = [
-        {
-            "Description": success.rule_description,
-            "Control id": success.control_id,
-            "Retrieved value": success.retrieved_value
-        } for success in succeeded_controls]
+    # print(all_fails)
+    return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls, len_fail = len(all_fails), all_fails=all_fails, len_suc = len(all_success), all_success=all_success)
 
+def get_fails():
     failed_controls = db.session.query(EvidenceModel).filter(EvidenceModel.control_id==ControlsModel.control_id).filter(EvidenceModel.retrieved_value!=ControlsModel.control_value).all()
 
     all_fails = [
@@ -80,9 +80,18 @@ def handle_controls():
             "Control id": fails.control_id,
             "Retrieved value": fails.retrieved_value
         } for fails in failed_controls]
+    return(all_fails)
 
+def get_success():
+    succeeded_controls = db.session.query(EvidenceModel).filter(EvidenceModel.control_id==ControlsModel.control_id).filter(EvidenceModel.retrieved_value==ControlsModel.control_value).all()
+    all_success = [
+        {
+            "Description": success.rule_description,
+            "Control id": success.control_id,
+            "Retrieved value": success.retrieved_value
+        } for success in succeeded_controls]
+    return(all_success)
 
-    return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls, len_fail = len(all_fails), all_fails=all_fails, len_suc = len(all_success), all_success=all_success)
 
 if __name__ == '__main__':
     app.run(use_reloader = True, debug = True)
