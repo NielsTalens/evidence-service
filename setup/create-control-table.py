@@ -37,9 +37,10 @@ try:
            control_id                serial        NOT NULL PRIMARY KEY
           ,risk_id                   INT           NOT NULL
           ,mo_id                     INT           NOT NULL
-          ,name                      VARCHAR(255)  NOT NULL
-          ,CIA_rating                INT           NOT NULL                         
-          ,description               TEXT          NOT NULL
+          ,control_name              VARCHAR(255)  NOT NULL
+          ,control_value             VARCHAR(255)  NOT NULL        
+          ,control_description       TEXT          NOT NULL
+          ,CIA_rating                INT           NOT NULL    
           ); '''
 
     # Execute the create table command
@@ -66,9 +67,10 @@ try:
               control_id                    
              ,risk_id
              ,mo_id
-             ,name
+             ,control_name
+             ,control_value
+             ,control_description                
              ,CIA_rating                      
-             ,description                
         )                       
           VALUES                  
         (                       
@@ -76,8 +78,9 @@ try:
              ,1
              ,1
              ,'Capacity risk control for SQL Server'  
-             ,222  
+             ,80
              ,'The control for the capacity risk is to monitor the capacity of the database on two levels: 60% (warning), 80% (exception)'
+             ,222  
         );'''
     
     # Execute the create the table command

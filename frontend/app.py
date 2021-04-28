@@ -11,18 +11,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhos
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-class ControlsModel(db.Model):
-    __tablename__ = 'controls'
+class ControlModel(db.Model):
+    __tablename__ = 'control'
 
     id = db.Column(db.Integer, primary_key=True)
-    control_id = db.Column(db.String())
+    control_id          = db.Column(db.Integer())
     control_description = db.Column(db.String())
-    control_value = db.Column(db.Integer())
+    control_value       = db.Column(db.String())
 
     def __init__(self, control_id, control_description, control_value):
-        self.control_id = control_id
+        self.control_id          = control_id
         self.control_description = control_description
-        self.control_value = control_value
+        self.control_value       = control_value
 
     def __repr__(self):
         return f"<Control {self.control_id}>"
@@ -30,14 +30,14 @@ class EvidenceModel(db.Model):
     __tablename__ = 'evidence'
 
     id = db.Column(db.Integer, primary_key=True)
-    rule_description = db.Column(db.String())
-    control_id = db.Column(db.String())
-    retrieved_value = db.Column(db.Integer())
+    evidence_id         = db.Column(db.Integer())
+    control_id          = db.Column(db.Integer())
+    evidence_value      = db.Column(db.String())
 
-    def __init__(self, rule_description, control_id, retrieved_value):
-        self.rule_description = rule_description
-        self.control_id = control_id
-        self.retrieved_value = retrieved_value
+    def __init__(self, evidence_id, control_id, evidence_value):
+        self.evidence_id          = evidence_id
+        self.control_id           = control_id
+        self.evidence_value       = evidence_value
 
     def __repr__(self):
         return f"<Evidence {self.id}>"
@@ -45,35 +45,35 @@ class EvidenceModel(db.Model):
 @app.route('/', methods=['GET'])
 def handle_controls():
     request.method == 'GET'
-    controls = ControlsModel.query.all()
-    all_controls = [
+    control = ControlModel.query.all()
+    all_control = [
         {
-            "Control Id": control.control_id,
-            "Description": control.control_description,
-            "Control value": control.control_value
+            "Control Id"           : control.control_id,
+            "Control Description"  : control.control_description,
+            "Control Value"        : control.control_value
         } for control in controls]
 
-    evidences = EvidenceModel.query.all()
+    evidence = EvidenceModel.query.all()
     all_evidence = [
       {
-          "Description": evidence.rule_description,
-          "Control id": evidence.control_id,
-          "Retrieved value": evidence.retrieved_value
-      } for evidence in evidences]
+          "Evidence ID"       : evidence.rule_description,
+          "Control Id"        : evidence.control_id,
+          "Evidence Value"    : evidence.evidence_value
+      } for evidence in evidence]
 
     checks_fail = []
     checks_succeed = []
     for evidence in all_evidence:
-      for control in all_controls:
+      for control in all_control:
         if evidence['Control id'] == control['Control Id']:
-          if evidence['Retrieved value'] != control['Control value']:
+          if evidence['Evidence value'] != control['Control value']:
             checks_fail.append(evidence)
           else:
             checks_succeed.append(evidence)
 
-    return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls, evidences=evidences, len_chf = len(checks_fail), checks_fail=checks_fail,len_chs = len(checks_succeed), checks_succeed=checks_succeed)
+    return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_control), all_control = all_control, evidence=evidence, len_chf = len(checks_fail), checks_fail=checks_fail,len_chs = len(checks_succeed), checks_succeed=checks_succeed)
 
-  # return render_template("index.html", len_c = len(all_controls), all_controls = all_controls)
+  # return render_template("index.html", len_c = len(all_control), all_controls = all_control)
 
 
 if __name__ == '__main__':

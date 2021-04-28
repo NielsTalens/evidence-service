@@ -35,8 +35,8 @@ try:
     ddl_create_table = '''CREATE TABLE risk
           (
           risk_id                    serial       NOT NULL PRIMARY KEY,
-          name                       VARCHAR(255) NOT NULL,
-          description                TEXT         NOT NULL
+          risk_name                  VARCHAR(255) NOT NULL,
+          risk_description           TEXT         NOT NULL
           ); '''
 
     # Execute the create table command
@@ -61,8 +61,8 @@ try:
     # DML statements to insert records in the risk table.
     dml_insert_table = '''INSERT INTO risk (                    
               risk_id                    
-             ,name                      
-             ,description                
+             ,risk_name                      
+             ,risk_description                
           )                       
           VALUES                  
           (                       
