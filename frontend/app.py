@@ -48,7 +48,7 @@ class EvidenceModel(db.Model):
 @app.route('/', methods=['GET'])
 def handle_controls():
     request.method == 'GET'
-    # print(get_fails())
+
     controls = ControlsModel.query.all()
     all_controls = [
         {
@@ -68,7 +68,6 @@ def handle_controls():
     all_fails = get_fails()
     all_success = get_success()
 
-    # print(all_fails)
     return render_template("index.html", len_e = len(all_evidence), all_evidence = all_evidence, len_c = len(all_controls), all_controls = all_controls, len_fail = len(all_fails), all_fails=all_fails, len_suc = len(all_success), all_success=all_success)
 
 def get_fails():
