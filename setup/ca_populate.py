@@ -19,44 +19,113 @@ try:
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)
 
+######################################################################
+## Populate the risk table
+######################################################################
 try:
-    # DDL statement to drop the control table
-    ddl_delete_table = '''DROP TABLE IF EXISTS control'''
-    cursor.execute(ddl_delete_table)
+    print("-----------------------------------------------------------------")
+    print("Populating Table ca_db.risk")
+
+    # DML statements to empty the table.
+    dml_truncate_table = '''TRUNCATE TABLE risk'''
+    cursor.execute(dml_truncate_table)
     connection.commit()
-    print("Table ca_db.control is dropped successfully.")
 
 except (Exception, Error) as error:
-    print("Error while dropping the ca_db.control table", error)
-
+    print("Error while truncating the ca_db.risk table.", error)
 
 try:
-    # DDL statement to create the control table
-    ddl_create_table = '''CREATE TABLE control
-          (
-           control_id                serial        NOT NULL PRIMARY KEY
-          ,risk_id                   INT           NOT NULL
-          ,mo_id                     INT           NOT NULL
-          ,control_name              VARCHAR(255)  NOT NULL
-          ,control_value             INT           NOT NULL        
-          ,control_description       TEXT          NOT NULL
-          ,CIA_rating                INT           NOT NULL    
-          ); '''
-
-    # Execute the create table command
-    cursor.execute(ddl_create_table)
+    # DML statements to insert records in the risk table.
+    dml_insert_table = '''INSERT INTO risk (                    
+              risk_id                    
+             ,risk_name                      
+             ,risk_description                
+          )                       
+          VALUES                  
+          (                       
+              1                   
+             ,'Capacity risk'    
+             ,'The risk of a full database which results in an unavailability from insert and update functions.' 
+           );'''
+    
+    # Execute the create the table command
+    cursor.execute(dml_insert_table)
     connection.commit()
-    print("Table ca_db.control is created successfully.")
+
 
 except (Exception, Error) as error:
-    print("Error while creating the ca_db.control.", error)
+    print("Error while populating the risk table in ca_db", error)
+
+# Test statement.
+try:
+    qry_test_table = '''SELECT COUNT(*) FROM risk'''
+    cursor.execute(qry_test_table)
+    (number,) = cursor.fetchone()
+    print("Number of records in table ca_db.risk is:",number)
+    print(" ")
+
+    connection.commit()
+except (Exception, Error) as error:
+    print("Error while connecting to PostgreSQL", error)
+
+######################################################################
+## Populate the managedobject table
+######################################################################
+try:
+    print("-----------------------------------------------------------------")
+    print("Populating Table ca_db.managedobject")
+
+    # DML statements to empty the table.
+    dml_truncate_table = '''TRUNCATE TABLE managedobject'''
+    cursor.execute(dml_truncate_table)
+    connection.commit()
+
+except (Exception, Error) as error:
+    print("Error while truncating the ca_db.managedobject table.", error)
 
 try:
-    # DML statements to empty the table (should be empty anyhow after the create).
+    # DML statements to insert records in the managedobject table.
+    dml_insert_table = '''INSERT INTO managedobject (                    
+              mo_id                    
+             ,name                      
+             ,description                
+          )                       
+          VALUES                  
+          (                       
+              1                   
+             ,'MS SQL Server'    
+             ,'The MS SQL Server managed object.' 
+           );'''
+    
+    # Execute the create the table command
+    cursor.execute(dml_insert_table)
+    connection.commit()
+
+except (Exception, Error) as error:
+    print("Error while populating the managedobject table in ca_db", error)
+
+# Test statement.
+try:
+    qry_test_table = '''SELECT COUNT(*) FROM managedobject'''
+    cursor.execute(qry_test_table)
+    (number,) = cursor.fetchone()
+    print("Number of records in table ca_db.managedobject is:",number)
+    print(" ")
+
+    connection.commit()
+except (Exception, Error) as error:
+    print("Error while connecting to PostgreSQL", error)
+######################################################################
+## Populate the control table
+######################################################################
+try:
+    print("-----------------------------------------------------------------")
+    print("Populating Table ca_db.control")
+    
+    # DML statements to empty the table. 
     dml_truncate_table = '''TRUNCATE TABLE control'''
     cursor.execute(dml_truncate_table)
     connection.commit()
-    print("Table ca_db.control is truncated successfully")
 
 except (Exception, Error) as error:
     print("Error while truncating the ca_db.control table.", error)
@@ -86,11 +155,10 @@ try:
     # Execute the create the table command
     cursor.execute(dml_insert_table)
     connection.commit()
-    print("Table ca_db.control is populated succesfully.")
-
 
 except (Exception, Error) as error:
     print("Error while populating the control table in ca_db", error)
+    print(" ")
 
 # Test statement.
 try:
@@ -98,6 +166,58 @@ try:
     cursor.execute(qry_test_table)
     (number,) = cursor.fetchone()
     print("Number of records in table ca_db.control is:",number)
+    print(" ")
+
+    connection.commit()
+except (Exception, Error) as error:
+    print("Error while connecting to PostgreSQL", error)
+
+######################################################################
+## Populate the evidence table
+######################################################################
+try:
+    print("-----------------------------------------------------------------")
+    print("Populating Table ca_db.evidence")
+    
+    # DML statements to empty the table (should be empty anyhow after the create).
+    dml_truncate_table = '''TRUNCATE TABLE evidence'''
+    cursor.execute(dml_truncate_table)
+    connection.commit()
+
+except (Exception, Error) as error:
+    print("Error while truncating the ca_db.evidence table.", error)
+
+try:
+    # DML statements to insert records in the evidence table.
+    dml_insert_table = '''INSERT INTO evidence 
+        (
+           evidence_id                         
+          ,control_id                 
+          ,evidence_value             
+          ,evidence_time             
+        )     
+        VALUES                  
+        (                       
+            1                   
+           ,1
+           ,'80'
+           ,'20210428 10:10'  
+        );'''
+    
+    # Execute the create the table command
+    cursor.execute(dml_insert_table)
+    connection.commit()
+
+except (Exception, Error) as error:
+    print("Error while populating the evidence table in ca_db", error)
+
+# Test statement.
+try:
+    qry_test_table = '''SELECT COUNT(*) FROM evidence'''
+    cursor.execute(qry_test_table)
+    (number,) = cursor.fetchone()
+    print("Number of records in table ca_db.evidence is:",number)
+    print(" ")
 
     connection.commit()
 except (Exception, Error) as error:
@@ -108,4 +228,3 @@ finally:
         cursor.close()
         connection.close()
         print("PostgreSQL connection is closed")
-
