@@ -143,7 +143,7 @@ try:
         )                       
           VALUES                  
         (                       
-              1                   
+              11                   
              ,1
              ,1
              ,'Capacity risk control for SQL Server'  
@@ -155,6 +155,38 @@ try:
     # Execute the create the table command
     cursor.execute(dml_insert_table)
     connection.commit()
+        
+
+except (Exception, Error) as error:
+    print("Error while populating the control table in ca_db", error)
+
+try:
+    # DML statements to insert records in the control table.
+    dml_insert_table = '''INSERT INTO control (                    
+              control_id                    
+             ,risk_id
+             ,mo_id
+             ,control_name
+             ,control_value
+             ,control_description                
+             ,CIA_rating                      
+        )                       
+          VALUES                  
+        (                       
+              12                   
+             ,1
+             ,1
+             ,'Availability risk control for SQL Server'  
+             ,95
+             ,'The control for the availability risk is to monitor the average availability.)'
+             ,222  
+        );'''
+    
+    # Execute the create the table command
+    cursor.execute(dml_insert_table)
+    connection.commit()
+
+ 
 
 except (Exception, Error) as error:
     print("Error while populating the control table in ca_db", error)
@@ -198,12 +230,33 @@ try:
         )     
         VALUES                  
         (                       
-            1                   
-           ,1
-           ,'80'
+            100                   
+           ,11
+           ,'81'
            ,'20210428 10:10'  
         );'''
-    
+        # Execute the create the table command
+    cursor.execute(dml_insert_table)
+    connection.commit()
+
+except (Exception, Error) as error:
+    print("Error while populating the evidence table in ca_db", error)
+
+try:
+    dml_insert_table = '''INSERT INTO evidence 
+        (
+           evidence_id                         
+          ,control_id                 
+          ,evidence_value             
+          ,evidence_time             
+        )     
+        VALUES                  
+        (                       
+            101                  
+           ,11
+           ,'79'
+           ,'20210428 10:10'  
+        );'''
     # Execute the create the table command
     cursor.execute(dml_insert_table)
     connection.commit()
