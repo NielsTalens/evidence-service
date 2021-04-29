@@ -36,7 +36,7 @@ try:
           (
           evidence_id               serial  NOT NULL PRIMARY KEY,
           control_id                INT     NOT NULL,
-          evidence_value            TEXT, 
+          evidence_value            INT, 
           evidence_time             TEXT
           ); '''
 

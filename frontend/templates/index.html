@@ -35,7 +35,7 @@
 				{%for i in range(0, len_e)%}
 				<p>Description: {{all_evidence[i]['Description']}}</p>
 				<p>Control id: {{all_evidence[i]['Control id']}}</p>
-				<p>Retrieved value: {{all_evidence[i]['Retrieved value']}}</p>
+				<p>Retrieved value: {{all_evidence[i]['Evidence value']}}</p>
 				<hr>
 				{%endfor%}
 			</div>
@@ -46,8 +46,8 @@
 					</div>
 					<div class="card-body">
 						{%for i in range(0, len_chf)%}
-						<p class="text-danger">{{checks_fail[i]['Description']}}</p>
-						<p class="text-warning">Failed with value {{checks_fail[i]['Retrieved value']}}</p>
+						<p class="text-danger">{{controls_fail[i]['Description']}}</p>
+						<p class="text-warning">Failed with value {{controls_fail[i]['Evidence value']}}</p>
 						{%endfor%}
 					</div>
 				</div>
@@ -57,8 +57,8 @@
 					</div>
 					<div class="card-body">
 						{%for i in range(0, len_chs)%}
-						<p class="text-success">{{checks_succeed[i]['Description']}}</p>
-						<p class="text-info">succeeded with value {{checks_succeed[i]['Retrieved value']}}</p>
+						<p class="text-success">{{controls_succeed[i]['Description']}}</p>
+						<p class="text-info">succeeded with value {{controls_succeed[i]['Evidence value']}}</p>
 						{%endfor%}
 					</div>
 				</div>

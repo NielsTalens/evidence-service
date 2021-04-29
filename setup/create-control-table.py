@@ -38,7 +38,7 @@ try:
           ,risk_id                   INT           NOT NULL
           ,mo_id                     INT           NOT NULL
           ,control_name              VARCHAR(255)  NOT NULL
-          ,control_value             VARCHAR(255)  NOT NULL        
+          ,control_value             INT           NOT NULL        
           ,control_description       TEXT          NOT NULL
           ,CIA_rating                INT           NOT NULL    
           ); '''
