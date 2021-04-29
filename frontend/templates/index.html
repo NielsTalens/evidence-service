@@ -45,9 +45,9 @@
 						<h5 class="card-title">Failed controls</h2>
 					</div>
 					<div class="card-body">
-						{%for i in range(0, len_chf)%}
-						<p class="text-danger">{{controls_fail[i]['Description']}}</p>
-						<p class="text-warning">Failed with value {{controls_fail[i]['Evidence value']}}</p>
+						{%for i in range(0, len_fail)%}
+						<p class="text-danger">{{all_fails[i]['Description']}}</p>
+						<p class="text-warning">Failed with value {{all_fails[i]['Retrieved value']}}</p>
 						{%endfor%}
 					</div>
 				</div>
@@ -56,9 +56,9 @@
 						<h5 class="card-title">Succeeded controls</h2>
 					</div>
 					<div class="card-body">
-						{%for i in range(0, len_chs)%}
-						<p class="text-success">{{controls_succeed[i]['Description']}}</p>
-						<p class="text-info">succeeded with value {{controls_succeed[i]['Evidence value']}}</p>
+						{%for i in range(0, len_suc)%}
+						<p class="text-success">{{all_success[i]['Description']}}</p>
+						<p class="text-info">succeeded with value {{all_success[i]['Retrieved value']}}</p>
 						{%endfor%}
 					</div>
 				</div>
