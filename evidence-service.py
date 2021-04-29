@@ -20,14 +20,15 @@ retrieval_time = datetime.datetime.now()
 try:
     # Connect to an existing database
     connection = psycopg2.connect(user= username,
-                                  password="",
-                                  host="127.0.0.1",
+                                  password="pgadmin",
+                                  host="localhost",
                                   port="5432",
                                   database="ca_db")
 
     cursor = connection.cursor()
     # Executing a SQL query to insert datetime into table
-    insert_query = """ INSERT INTO evidence (rule_description, control_id, retrieved_value, retrieval_time) VALUES (%s, %s, %s, %s)"""
+    insert_query = """ INSERT INTO evidence (rule_description, control_id, retrieved_value, retrieval_time) 
+                       VALUES (%s, %s, %s, %s)"""
     item_tuple = (rule_description, control_id, retrieved_value, retrieval_time)
     cursor.execute(insert_query, item_tuple)
     connection.commit()

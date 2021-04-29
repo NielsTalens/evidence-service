@@ -24,18 +24,18 @@
 			<div class="col-sm">
 				<h2>Controls</h2>
 				{%for i in range(0, len_c)%}
-				<p>Id: {{all_controls[i]['Control Id']}}</p>
-				<p>Description: {{all_controls[i]['Description']}}</p>
-				<p>Control value: {{all_controls[i]['Control value']}}</p>
+				<p>Control Id   : {{all_controls[i]['Control Id']}}</p>
+				<p>Description  : {{all_controls[i]['Control Description']}}</p>
+				<p>Control value: {{all_controls[i]['Control Value']}}</p>
 				<hr>
 				{%endfor%}
 			</div>
 			<div class="col-sm">
 				<h2>Evidence</h2>
 				{%for i in range(0, len_e)%}
-				<p>Description: {{all_evidence[i]['Description']}}</p>
-				<p>Control id: {{all_evidence[i]['Control id']}}</p>
-				<p>Retrieved value: {{all_evidence[i]['Retrieved value']}}</p>
+				<p>Evidence id   : {{all_evidence[i]['Evidence Id']}}</p>
+				<p>Control id    : {{all_evidence[i]['Control Id']}}</p>
+				<p>Evidence value: {{all_evidence[i]['Evidence Value']}}</p>
 				<hr>
 				{%endfor%}
 			</div>
@@ -46,8 +46,8 @@
 					</div>
 					<div class="card-body">
 						{%for i in range(0, len_fail)%}
-						<p class="text-danger">{{all_fails[i]['Description']}}</p>
-						<p class="text-warning">Failed with value {{all_fails[i]['Retrieved value']}}</p>
+						<p class="text-warning">{{all_fails[i]['Description']}}</p>
+						<p class="text-danger">Failed with value {{all_fails[i]['Evidence value']}}</p>
 						{%endfor%}
 					</div>
 				</div>
@@ -57,8 +57,8 @@
 					</div>
 					<div class="card-body">
 						{%for i in range(0, len_suc)%}
-						<p class="text-success">{{all_success[i]['Description']}}</p>
-						<p class="text-info">succeeded with value {{all_success[i]['Retrieved value']}}</p>
+						<p class="text-info">{{all_success[i]['Description']}}</p>
+						<p class="text-success">succeeded with value {{all_success[i]['Evidence value']}}</p>
 						{%endfor%}
 					</div>
 				</div>
