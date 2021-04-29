@@ -9,6 +9,7 @@ from psycopg2 import Error
 username = os.environ['USER']
 
 response = requests.get('http://xkcd.com/23/info.0.json')
+print(response.json()['title'])
 
 # Map the retrieved information
 rule_description = response.json()['title']
