@@ -36,9 +36,11 @@ ToDo: connect to Azure api to retrieve control data.
 In the frontend directory:
 ## 6. Install dependencies
 
-$ pip install psycopg2-binary
-$ pip install flask-sqlalchemy
-$ pip install Flask-Migrate
+`$ pip install psycopg2-binary`
+
+`$ pip install flask-sqlalchemy`
+
+`$ pip install Flask-Migrate`
 
 ## 7. Run the frontend
 
