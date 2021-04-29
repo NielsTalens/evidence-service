@@ -1,20 +1,16 @@
 import json
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask import request, Response
 from flask import render_template
 from flask_bootstrap import Bootstrap
-from sqlalchemy import text
-from sqlalchemy import Table, Column, Integer, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
 app = Flask(__name__)
 Bootstrap(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/ca_db"
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
 class ControlModel(db.Model):
     __tablename__ = 'control'
 
@@ -38,7 +34,7 @@ class EvidenceModel(db.Model):
     evidence_id         = db.Column(db.Integer, primary_key=True)
     control_id          = db.Column(db.Integer(),ForeignKey('control.control_id'))
     evidence_value      = db.Column(db.Integer())
- 
+
     def __init__(self, evidence_id, control_id, evidence_value):
         self.evidence_id          = evidence_id
         self.control_id           = control_id
@@ -47,8 +43,6 @@ class EvidenceModel(db.Model):
     def __repr__(self):
         return f"<Evidence {self.id}>"
 
-    
-    
 
 @app.route('/', methods=['GET'])
 def handle_controls():
@@ -84,11 +78,10 @@ def handle_controls():
                                        , len_suc        = len(all_success)
                                        , all_success    = all_success)
 
-def get_fails(): 
+def get_fails():
     failed_controls = db.session.query(  EvidenceModel.control_id            \
                                         ,EvidenceModel.evidence_value        \
                                         ,ControlModel.control_description)   \
-                                        .join(EvidenceModel, EvidenceModel.control_id == ControlModel.control_id)                                          \
                                         .filter(EvidenceModel.control_id     == ControlModel.control_id)            \
                                         .filter(EvidenceModel.evidence_value >  ControlModel.control_value).all()
 
@@ -101,18 +94,13 @@ def get_fails():
     return(all_fails)
 
 def get_success():
-   # succeeded_controls = db.session.query(EvidenceModel)      
-   #                                            \
-   #                                     .filter(EvidenceModel.control_id     == ControlModel.control_id) \
-   #                                     .filter(EvidenceModel.evidence_value <= ControlModel.control_value).all()
 
     succeeded_controls = db.session.query(  EvidenceModel.control_id                                                \
                                         ,EvidenceModel.evidence_value                                               \
                                         ,ControlModel.control_description)                                          \
-                                        .join(EvidenceModel, EvidenceModel.control_id == ControlModel.control_id)   \
                                         .filter(EvidenceModel.control_id     == ControlModel.control_id)            \
                                         .filter(EvidenceModel.evidence_value <=  ControlModel.control_value).all()
-    
+
     all_success = [
         {
             "Description"      : success.control_description,
@@ -120,7 +108,6 @@ def get_success():
             "Evidence value"   : success.evidence_value
         } for success in succeeded_controls]
     return(all_success)
-
 
 if __name__ == '__main__':
     app.run(use_reloader = True, debug = True)
