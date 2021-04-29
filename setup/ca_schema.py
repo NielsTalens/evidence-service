@@ -19,6 +19,71 @@ try:
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)
 
+######################################################################
+## Create the risk table
+######################################################################
+
+# DDL statement to drop the risk table
+try:
+    ddl_delete_table = '''DROP TABLE IF EXISTS risk'''
+    cursor.execute(ddl_delete_table)
+    connection.commit()
+    print("Table ca_db.risk is dropped successfully.")
+
+except (Exception, Error) as error:
+    print("Error while dropping the ca_db.risk table", error)
+
+
+try:
+    # DDL statement to create the risk table
+    ddl_create_table = '''CREATE TABLE risk
+          (
+          risk_id                    serial       NOT NULL PRIMARY KEY,
+          risk_name                  VARCHAR(255) NOT NULL,
+          risk_description           TEXT         NOT NULL
+          ); '''
+
+    # Execute the create table command
+    cursor.execute(ddl_create_table)
+    connection.commit()
+    print("Table ca_db.risk is created successfully.")
+
+except (Exception, Error) as error:
+    print("Error while creating the table ca_db.risk.", error)
+
+######################################################################
+## Create the managedobject table
+######################################################################
+try:
+    # DDL statements to drop and create a table
+    ddl_delete_table = '''DROP TABLE IF EXISTS managedobject'''
+    cursor.execute(ddl_delete_table)
+    connection.commit()
+    print("Table ca_db.managedobject is dropped successfully.")
+
+except (Exception, Error) as error:
+    print("Error while dropping the ca_db.managedobject table", error)
+
+try:
+    # DDL statement to create the managedobject table
+    ddl_create_table = '''CREATE TABLE managedobject
+          (
+          mo_id                      serial       NOT NULL PRIMARY KEY,
+          name                       VARCHAR(255) NOT NULL,
+          description                TEXT         NOT NULL
+          ); '''
+
+    # Execute the create the table command
+    cursor.execute(ddl_create_table)
+    connection.commit()
+    print("Table ca_db.managedobject is created successfully.")
+
+except (Exception, Error) as error:
+    print("Error while creating the table ca_db.managedobject.", error)
+
+######################################################################
+## Create the control table
+######################################################################
 try:
     # DDL statement to drop the control table
     ddl_delete_table = '''DROP TABLE IF EXISTS control'''
@@ -52,60 +117,70 @@ except (Exception, Error) as error:
     print("Error while creating the ca_db.control.", error)
 
 try:
-    # DML statements to empty the table (should be empty anyhow after the create).
-    dml_truncate_table = '''TRUNCATE TABLE control'''
-    cursor.execute(dml_truncate_table)
+    # DDL statement to drop the evidence table
+    ddl_delete_table = '''DROP TABLE IF EXISTS evidence'''
+    cursor.execute(ddl_delete_table)
     connection.commit()
-    print("Table ca_db.control is truncated successfully")
+    print("Table ca_db.evidence is dropped successfully.")
 
 except (Exception, Error) as error:
-    print("Error while truncating the ca_db.control table.", error)
+    print("Error while dropping the ca_db.evidence table", error)
+
 
 try:
-    # DML statements to insert records in the control table.
-    dml_insert_table = '''INSERT INTO control (                    
-              control_id                    
-             ,risk_id
-             ,mo_id
-             ,control_name
-             ,control_value
-             ,control_description                
-             ,CIA_rating                      
-        )                       
-          VALUES                  
-        (                       
-              1                   
-             ,1
-             ,1
-             ,'Capacity risk control for SQL Server'  
-             ,80
-             ,'The control for the capacity risk is to monitor the capacity of the database on two levels: 60% (warning), 80% (exception)'
-             ,222  
-        );'''
-    
-    # Execute the create the table command
-    cursor.execute(dml_insert_table)
-    connection.commit()
-    print("Table ca_db.control is populated succesfully.")
+    # DDL statement to create the evidence table
+    ddl_create_table = '''CREATE TABLE evidence
+          (
+          evidence_id               serial  NOT NULL PRIMARY KEY,
+          control_id                INT     NOT NULL,
+          evidence_value            INT, 
+          evidence_time             TEXT
+          ); '''
 
+    # Execute the create table command
+    cursor.execute(ddl_create_table)
+    connection.commit()
+    print("Table ca_db.evidence is created successfully.")
 
 except (Exception, Error) as error:
-    print("Error while populating the control table in ca_db", error)
+    print("Error while creating the ca_db.evidence.", error)
 
-# Test statement.
+######################################################################
+## Create the evidence table
+######################################################################
+
+# DDL statement to drop the evidence table
 try:
-    qry_test_table = '''SELECT COUNT(*) FROM control'''
-    cursor.execute(qry_test_table)
-    (number,) = cursor.fetchone()
-    print("Number of records in table ca_db.control is:",number)
-
+    ddl_delete_table = '''DROP TABLE IF EXISTS evidence'''
+    cursor.execute(ddl_delete_table)
     connection.commit()
+    print("Table ca_db.evidence is dropped successfully.")
+
 except (Exception, Error) as error:
-    print("Error while connecting to PostgreSQL", error)
+    print("Error while dropping the ca_db.evidence table", error)
+
+
+try:
+    # DDL statement to create the evidence table
+    ddl_create_table = '''CREATE TABLE evidence
+          (
+          evidence_id               serial  NOT NULL PRIMARY KEY,
+          control_id                INT     NOT NULL,
+          evidence_value            INT, 
+          evidence_time             TEXT
+          ); '''
+
+    # Execute the create table command
+    cursor.execute(ddl_create_table)
+    connection.commit()
+    print("Table ca_db.evidence is created successfully.")
+
+except (Exception, Error) as error:
+    print("Error while creating the ca_db.evidence.", error)
+
 
 finally:
     if connection:
         cursor.close()
         connection.close()
         print("PostgreSQL connection is closed")
-
